@@ -20,7 +20,7 @@
 
 .nav-items > ul > li {
     padding: 10px;
-    margin: 10px
+    margin: 10px;
 }
 
 .res-container {
@@ -71,4 +71,21 @@
 
 .filter {
     display: flex;
+}
+.item-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.items-card{
+    margin: 5px;
+    padding: 5px;
+    width: 200px;
+}
+.items-card :hover{
+    cursor: pointer;
+}
+.user-card{
+padding: 10px;
+border: 1px solid black;
 }
