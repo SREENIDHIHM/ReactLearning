@@ -13,15 +13,15 @@ const resInfo = useRestaurantMenu(resId)
     return (
 
         <div className="menu">
-            <h1>{name}</h1>
+            <h1 className="font-bold text-lg">{name}</h1>
             <p>{cuisines.join(",")} - {costForTwoMessage}</p>
             <h2>Menu</h2>
-            <ul className="item-container">
+            <ul className="flex flex-wrap p-4 w-auto">
                 {
                     itemCards?.map(item => 
-                        <div className="items-card">
-                        <img className="res-logo"alt="res-logo"src= {CDNI_URL + item.card.info.imageId}/>
-                        <li key={item.card.info.id}><h3>{item.card.info.name}-{item.card.info.price}</h3><h4>{item.card.info.description}</h4>
+                        <div className="flex p-4 m-4 bg-gray-100 rounded-lg">
+                        <img className="rounded-2xl"alt="res-logo"src= {CDNI_URL + item.card.info.imageId}/>
+                        <li className="p-4 m-4" key={item.card.info.id}><h3>{item.card.info.name}-{item.card.info.price}</h3><h4>{item.card.info.description}</h4>
                         </li></div>)
                 }
             </ul>
