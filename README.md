@@ -32,3 +32,15 @@ Copyright
 Links
 Address
 Contact */
+
+
+#Redux toolKit
+- Intall @reduxjs/toolkit  and react-redux
+
+Build our Cart ->npm @reduxjs/toolkit
+- Connect Out store to app
+- slice (cart -slice)
+- dispatch (action)
+- seclector(read the data)
+
+
