@@ -1,49 +1,62 @@
-import Header from "../Header"
-import appStore from "../../utils/appStore"
-import { BrowserRouter} from "react-router-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { Provider } from "react-redux";
+import { act } from "react-dom/test-utils";
+import Body from "../Body";
+import MOCK_DATA from "../mocks/mockResListData.json";
+import { BrowserRouter } from "react-router-dom";
 import "@testing-library/jest-dom";
 
-it ("Should load Header component with login button",()=>{
-    render(
-        <BrowserRouter>
-        <Provider store={appStore}>
-            <Header/>
-            </Provider>
-        </BrowserRouter>
-
-    );
-    const loginButton = screen.getByRole("button",{name:"Login"});
-    expect(loginButton).toBeINTheDocument();
+global.fetch = jest.fn(() => {
+  return Promise.resolve({
+    json: () => {
+      return Promise.resolve(MOCK_DATA);
+    },
+  });
 });
 
-it ("Should load Header component with cartItem",()=>{
+it("Should Search Res List for burger text input ", async () => {
+  await act(async () =>
     render(
-        <BrowserRouter>
-        <Provider store={appStore}>
-            <Header/>
-            </Provider>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Body />
+      </BrowserRouter>
+    )
+  );
 
-    );
-    const cartItems = screen.getByText(/Cart/);
-    expect(cartItems).toBeINTheDocument();
+  const cardsBeforeSearch = screen.getAllByTestId("resCard");
+
+  expect(cardsBeforeSearch.length).toBe(20);
+
+  const searchBtn = screen.getByRole("button", { name: "Search" });
+
+  const searchInput = screen.getByTestId("searchInput");
+
+  fireEvent.change(searchInput, { target: { value: "burger" } });
+
+  fireEvent.click(searchBtn);
+
+  const cardsAfterSearch = screen.getAllByTestId("resCard");
+
+  expect(cardsAfterSearch.length).toBe(4);
 });
 
-it ("Should change Lohin Button to onclick load Header component with logOut button",()=>{
+it("Should filter Top Rated Restaurant", async () => {
+  await act(async () =>
     render(
-        <BrowserRouter>
-        <Provider store={appStore}>
-            <Header/>
-            </Provider>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Body />
+      </BrowserRouter>
+    )
+  );
 
-    );
-    
-    const loginButton = screen.getByRole("button",{name:"Login"});
+  const cardsBeforeFilter = screen.getAllByTestId("resCard");
 
-    fireEvent.click(loginButton);
-    const logoutButton = screen.getByRole("button",{name:"Logout"})
-    expect(logoutButton).toBeINTheDocument();
+  expect(cardsBeforeFilter.length).toBe(20);
+
+  const topRatedBtn = screen.getByRole("button", {
+    name: "Top Rated Restaurants",
+  });
+  fireEvent.click(topRatedBtn);
+
+  const cardsAfterFilter = screen.getAllByTestId("resCard");
+  expect(cardsAfterFilter.length).toBe(13);
 });
